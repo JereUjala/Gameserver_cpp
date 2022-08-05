@@ -14,5 +14,3 @@ make:
 clean:
 	rm -rf ./so/*
 	rm -rf ./bin/*
-backup:
-	cp -r ./* ../backup
