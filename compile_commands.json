@@ -1,0 +1,98 @@
+[
+  {
+    "arguments": [
+      "/usr/sbin/clang++",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-v",
+      "-c",
+      "-o",
+      "./so/loginhandling.o",
+      "./login/loginhandling.cpp"
+    ],
+    "directory": "/home/group/external/nettilevy/sysadminleikinnat/koodijuttuja/koodiprojektit/omat/cpp/server/remoteserver",
+    "file": "/home/group/external/nettilevy/sysadminleikinnat/koodijuttuja/koodiprojektit/omat/cpp/server/remoteserver/login/loginhandling.cpp",
+    "output": "/home/group/external/nettilevy/sysadminleikinnat/koodijuttuja/koodiprojektit/omat/cpp/server/remoteserver/so/loginhandling.o"
+  },
+  {
+    "arguments": [
+      "/usr/sbin/clang++",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-v",
+      "-c",
+      "-o",
+      "./so/main.o",
+      "main.cpp"
+    ],
+    "directory": "/home/group/external/nettilevy/sysadminleikinnat/koodijuttuja/koodiprojektit/omat/cpp/server/remoteserver",
+    "file": "/home/group/external/nettilevy/sysadminleikinnat/koodijuttuja/koodiprojektit/omat/cpp/server/remoteserver/main.cpp",
+    "output": "/home/group/external/nettilevy/sysadminleikinnat/koodijuttuja/koodiprojektit/omat/cpp/server/remoteserver/so/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/sbin/clang++",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-v",
+      "-c",
+      "-o",
+      "./so/clienthandling.o",
+      "./networking/clienthandling.cpp"
+    ],
+    "directory": "/home/group/external/nettilevy/sysadminleikinnat/koodijuttuja/koodiprojektit/omat/cpp/server/remoteserver",
+    "file": "/home/group/external/nettilevy/sysadminleikinnat/koodijuttuja/koodiprojektit/omat/cpp/server/remoteserver/networking/clienthandling.cpp",
+    "output": "/home/group/external/nettilevy/sysadminleikinnat/koodijuttuja/koodiprojektit/omat/cpp/server/remoteserver/so/clienthandling.o"
+  },
+  {
+    "arguments": [
+      "/usr/sbin/clang++",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-v",
+      "-c",
+      "-o",
+      "./so/Playermovement.o",
+      "./input/Playermovement.cpp"
+    ],
+    "directory": "/home/group/external/nettilevy/sysadminleikinnat/koodijuttuja/koodiprojektit/omat/cpp/server/remoteserver",
+    "file": "/home/group/external/nettilevy/sysadminleikinnat/koodijuttuja/koodiprojektit/omat/cpp/server/remoteserver/input/Playermovement.cpp",
+    "output": "/home/group/external/nettilevy/sysadminleikinnat/koodijuttuja/koodiprojektit/omat/cpp/server/remoteserver/so/Playermovement.o"
+  },
+  {
+    "arguments": [
+      "/usr/sbin/clang++",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-v",
+      "-c",
+      "-o",
+      "./so/tui.o",
+      "./server/tui.cpp"
+    ],
+    "directory": "/home/group/external/nettilevy/sysadminleikinnat/koodijuttuja/koodiprojektit/omat/cpp/server/remoteserver",
+    "file": "/home/group/external/nettilevy/sysadminleikinnat/koodijuttuja/koodiprojektit/omat/cpp/server/remoteserver/server/tui.cpp",
+    "output": "/home/group/external/nettilevy/sysadminleikinnat/koodijuttuja/koodiprojektit/omat/cpp/server/remoteserver/so/tui.o"
+  },
+  {
+    "arguments": [
+      "/usr/sbin/clang++",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-v",
+      "-c",
+      "-o",
+      "./so/server.o",
+      "./server/server.cpp"
+    ],
+    "directory": "/home/group/external/nettilevy/sysadminleikinnat/koodijuttuja/koodiprojektit/omat/cpp/server/remoteserver",
+    "file": "/home/group/external/nettilevy/sysadminleikinnat/koodijuttuja/koodiprojektit/omat/cpp/server/remoteserver/server/server.cpp",
+    "output": "/home/group/external/nettilevy/sysadminleikinnat/koodijuttuja/koodiprojektit/omat/cpp/server/remoteserver/so/server.o"
+  }
+]
