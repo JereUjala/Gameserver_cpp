@@ -9,7 +9,7 @@ make:
 	$(CC) $(OPTS) -c ./server/tui.cpp -o ./so/tui.o
 	$(CC) $(OPTS) -c ./server/server.cpp -o ./so/server.o
 	echo 'Linking files.'
-	$(CC) $(OPTS) -o ./bin/server.aa -lncurses ./so/*.o -I ./header/Header.hpp
+	$(CC) $(OPTS) -o ./bin/server -lncurses ./so/*.o -I ./header/Header.hpp
 
 clean:
 	rm -rf ./so/*
