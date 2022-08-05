@@ -11,7 +11,7 @@ download this repo with git clone
 
 run `make`
 
-and execute server with a port as an argument if a port is not given the default port of 1512 is used
+and execute server with a port as an argument. If a port is not given the default port of 1512 is used
 
 `./bin/server 88`
 
