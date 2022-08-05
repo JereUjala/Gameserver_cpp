@@ -11,11 +11,6 @@
 #include <assert.h>
 using namespace GameServer;
 
- /*  What this server needs to do:
- *   get clients messages tell and
- *   the other players where the client is
- */
-
  int main(int argc, char* argv[]) {
 
             uint *port       = (uint*)malloc(sizeof(uint)),
@@ -33,7 +28,8 @@ using namespace GameServer;
         } else {
                 *port = htons(atoi(argv[1]));
         }
-        Server* server{Server::MakeServer(*port, *maxPlayers, size->height-4, size->width,0,0,true)};
+        Server* server{Server::MakeServer(*port, *maxPlayers, size->height-4,
+                                                      size->width,0,0,true)};
 
             // make thread for separate io
              std::thread thread (&Server::Tui::Input, Console, server);
