@@ -84,7 +84,6 @@ void Clients::ClientHandler::ClientHandling() {
     std::ostringstream ss1;
         ss1 << "msg: " << buf;
    SendToTui(ss1.str());
-                /* memset(buf, 0, sizeof(buf)); */
 
         std::ostringstream ss;
         switch(compare) {
@@ -97,10 +96,6 @@ void Clients::ClientHandler::ClientHandling() {
                 case State::Forwards:
                         ss << " forwards.";
                         SendToTui(ss.str());
-                        /* std::cout << *fds << " is going backwards\n"; */
-                        /* buf[0] = State::Forwards; // what do */
-                        /* buf[1] = static_cast<uint>(*fds); // who */
-                        /* buf[2] = 100; // how much */
                         break;
                 case State::Left:
                         ss << " Left";
@@ -124,20 +119,10 @@ void Clients::ClientHandler::ClientHandling() {
                 break;
         }
         SendToAllClients(buf);
-                /* for(uint i = nfds; i >= 1; --i) { */
-                /*     /1* if(listeningSocket[i].fd != *fds) continue; *1/ */
-                /*     if(listeningSocket[i].fd != listeningSocket[0].fd) { */
-                /*     /1*     continue; *1/ */
-
-                /*            SendToClient(&listeningSocket[i].fd, buf); */
-                /* } */
-        /* } */
-                /* SendToAllClients(buf); */
                   /* clear the buffer*/
-                /* memset(buf, 0, sizeof(buf)); */
+                memset(buf, 0, sizeof(buf));
     }
 
-/* void Clients::ClientHandler:: */
         void Clients::ClientHandler::SendToAllClients(const byte* const msg) {
              // send message to everybody that is not a listening socket
                 for(uint i = nfds; i > 0; --i) {
