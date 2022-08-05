@@ -16,4 +16,4 @@ and execute server with a port as an argument. If a port is not given the defaul
 `./bin/server 88`
 
 Note: 
-     This only works on linux.
+     I have only tested this on linux.
