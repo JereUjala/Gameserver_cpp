@@ -7,13 +7,13 @@ To run this program
 first 
 download this repo with git clone 
 
-'git clone https://github.com/JereUjala/Gameserver_cpp.git'
+`git clone https://github.com/JereUjala/Gameserver_cpp.git`
 
-run 'make'
+run `make`
 
 and execute server with a port as an argument if a port is not given the default port of 1512 is used
 
-'./bin/server 88'
+`./bin/server 88`
 
 Note: 
      This only works on linux.
