@@ -4,7 +4,6 @@
 #include <curses.h>
 #include <stdlib.h>
 #include "../header/Header.hpp"
-#include "coommands.hpp"
 #include <vector>
 
 using namespace GameServer;

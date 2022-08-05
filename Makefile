@@ -6,7 +6,6 @@ make:
 	$(CC) $(OPTS) -c ./login/*.cpp -o ./so/loginhandling.o
 	$(CC) $(OPTS) -c *.cpp -o ./so/main.o
 	$(CC) $(OPTS) -c ./networking/*.cpp -o ./so/clienthandling.o
-	$(CC) $(OPTS) -c ./input/*.cpp -o ./so/Playermovement.o
 	$(CC) $(OPTS) -c ./server/tui.cpp -o ./so/tui.o
 	$(CC) $(OPTS) -c ./server/server.cpp -o ./so/server.o
 	echo 'Linking files.'
