@@ -7,7 +7,6 @@
 #include <unistd.h>
 #include <thread>
 #include "header/Header.hpp"
-#include "header/terminaltui.hpp"
 #include <assert.h>
 using namespace GameServer;
 
