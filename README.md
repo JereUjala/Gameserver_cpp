@@ -9,6 +9,7 @@ download this repo with git clone
 `git clone https://github.com/JereUjala/Gameserver_cpp.git`
 
 make bin and so directories `mkdir {bin,so}`
+
 run `make`
 
 and execute server with a port as an argument. If a port is not given the default port of 1512 is used
