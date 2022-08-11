@@ -44,12 +44,12 @@ void Clients::ClientHandler::ClientHandling() {
                                                                   nullptr);
                        if (newConn == -1) {
                           if (errno != EWOULDBLOCK)
-                            SendToTui("Accepting failed");
+                            tui->SendToTui("Accepting failed");
                         break;
                        }
                         std::ostringstream ss;
                             ss << "New incoming connection: " << newConn;
-                        SendToTui(ss.str());
+                        tui->SendToTui(ss.str());
                             listeningSocket[nfds].fd = newConn;
                             listeningSocket[nfds].events = POLLIN;
                         Clients::ClientHandler::LoginHandler(
@@ -83,38 +83,38 @@ void Clients::ClientHandler::ClientHandling() {
 
     std::ostringstream ss1;
         ss1 << "msg: " << buf;
-   SendToTui(ss1.str());
+   tui->SendToTui(ss1.str());
 
         std::ostringstream ss;
         switch(compare) {
                 ss << *fds;
                 case State::Backwards:
                         ss << " backwards first byte" << buf[0];
-                        SendToTui("Backwards");
+                        tui->SendToTui("Backwards");
                         std::cout << *fds << " is moving backwards\n";
                         break;
                 case State::Forwards:
                         ss << " forwards.";
-                        SendToTui(ss.str());
+                        tui->SendToTui(ss.str());
                         break;
                 case State::Left:
                         ss << " Left";
-                        SendToTui(ss.str());
+                        tui->SendToTui(ss.str());
                         /* std::cout << *fds << " is going left\n"; */
                         break;
                 case State::Right:
                         ss << " Right";
-                        SendToTui(ss.str());
+                        tui->SendToTui(ss.str());
                         /* std::cout << *fds << " is going right\n"; */
                         break;
                 case State::Shoot:
                         ss << " Shoot";
-                        SendToTui(ss.str());
+                        tui->SendToTui(ss.str());
                         /* std::cout << *fds << " is shooting.\n"; */
                         break;
                 case State::Charachter:
                         ss << " Charachter";
-                        SendToTui(ss.str());
+                        tui->SendToTui(ss.str());
                         break;
                 break;
         }
@@ -143,14 +143,14 @@ void Clients::ClientHandler::ClientHandling() {
             if(bytesGot == -1) {
                 std::ostringstream ss;
                 ss << "There was a problem talking to client " << *fds;
-                        SendToTui(ss.str());
+                        tui->SendToTui(ss.str());
                 return false;
             }
 
             if(bytesGot == 0) {
                 std::ostringstream ss;
                 ss << "Client: " << *fds << " disconnected.";
-                SendToTui(ss.str());
+                tui->SendToTui(ss.str());
                 /* close(*fds); */
                 return true;
             }
@@ -163,13 +163,13 @@ void Clients::ClientHandler::ClientHandling() {
                 ss << "Sending to: " << *clientSocket << " | "
                    << msg;
 
-                SendToTui(ss.str());
+                tui->SendToTui(ss.str());
                    // send to client and see if it worked *sizeof(byte)
                 if(send(*clientSocket, msg, sizeof(msg), 0) == -1) {
                    std::ostringstream ss;
                     ss << "Sending data to " <<
                           *clientSocket << " failed.";
-                    SendToTui(ss.str());
+                    tui->SendToTui(ss.str());
                 }
         }
 
@@ -178,13 +178,13 @@ void Clients::ClientHandler::SendToClient(const int* const clientSocket,
                std::ostringstream ss;
                 ss << "Sending to: " << *clientSocket << " | "
                    << clientDo;
-                SendToTui(ss.str());
+                tui->SendToTui(ss.str());
 
                    // send to client and see if it worked
                 if(send(*clientSocket, &clientDo, sizeof(byte), 0) == -1) {
                    std::ostringstream ss;
                     ss << "Sending data to " <<
                           *clientSocket << " failed.";
-                    SendToTui(ss.str());
-                }
+                    tui->SendToTui(ss.str());
+        }
         }

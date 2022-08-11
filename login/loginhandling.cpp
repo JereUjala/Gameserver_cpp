@@ -15,7 +15,7 @@ void Clients::ClientHandler::LoginHandler(int const fds,int playerNum) {
                 gotMsg = ReceivedFromClient(&fds, buf);
         std::ostringstream ss;
         ss << "Got client name as: " << buf <<".";
-        SendToTui(ss.str());
+       tui->SendToTui(ss.str());
                 // write player name to struct
                 for(int i = 0; i< 10; ++i)
                   player[playerNum].name += buf[i];
@@ -27,7 +27,7 @@ void Clients::ClientHandler::LoginHandler(int const fds,int playerNum) {
                 std::ostringstream ss2;
                 ss2 << "Sending tickrate " << serverTick <<
                " to " << player[playerNum].name;
-                SendToTui(ss2.str());
+               tui->SendToTui(ss2.str());
                 SendToClient(&fds, serverTick);
 
                         // send the newly connected client their id
@@ -36,7 +36,7 @@ void Clients::ClientHandler::LoginHandler(int const fds,int playerNum) {
                         std::ostringstream ss3;
                         ss3 << "Sending id " << clientId << " to  player "<<
                                                                    fds;
-                        SendToTui(ss3.str());
+                        tui->SendToTui(ss3.str());
                         SendToClient(&fds, clientId);
 
                 if(id > 1) {

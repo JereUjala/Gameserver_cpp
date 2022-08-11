@@ -17,9 +17,9 @@ using namespace GameServer;
                  *port       = 1512;
                  *maxPlayers = 16;
 
-            Server::Tui::Size Size{Server::Tui::StartTui()};
-            Server::Tui::Size *size{&Size};
-            Server::Tui Console(3, size->width, size->height-3, 0, true);
+            Tui::Size Size{Tui::StartTui()};
+            Tui::Size *size{&Size};
+            Tui Console(3, size->width, size->height-3, 0, true);
 
         if (argc < 2) {
             std::cerr << "No port provided, please give a port as an argument\n"
@@ -27,17 +27,19 @@ using namespace GameServer;
         } else {
                 *port = htons(atoi(argv[1]));
         }
-        Server* server{Server::MakeServer(*port, *maxPlayers, size->height-4,
-                                                      size->width,0,0,true)};
+
+        Server* server{Server::MakeServer(*port, *maxPlayers)};
+
+                server->tui = new Tui(size->height-4, size->width,
+                                     0,0, false);
 
             // make thread for separate io
-             std::thread thread (&Server::Tui::Input, Console, server);
+             std::thread thread (&Tui::Input, Console, server);
             //detach to not crash the program
                     thread.detach();
 
             // start the server
                 server->StartServer();
-            // we can get these from server
 
             Clients::ClientHandler *cl{static_cast<Clients::ClientHandler*>(
                                             server)};

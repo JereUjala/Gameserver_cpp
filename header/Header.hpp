@@ -1,4 +1,4 @@
-#pragma once  /* to only include this file once*/
+#pragma once
 #include <iostream>
 #include <chrono>
 
@@ -7,7 +7,6 @@ namespace GameServer {
 
     class Tui {
       private:
-        /* struct WINDOW; */
           typedef struct  _win_st WINDOW;
           uint command;
           void DeleteChar(std::string& str);
@@ -25,19 +24,16 @@ namespace GameServer {
           static struct Tui::Size& StartTui();
          /* A string we want to send to cli*/
           void SendToTui(const std::string str);
-
     };
 
-    class Server : public Tui {
+    class Server {
       public:
           void StartServer();
-          static Server* MakeServer(uint port, uint maxPlayers, uint height,
-                                    uint width, uint startY=0, uint startX=0,
-                                    bool border=false);
-          auto getMaxPlayers() -> int;
+          Tui *tui;
+          static Server* MakeServer(uint port, uint maxPlayers);
+          void ShutdownServer();
       private:
-          Server(uint port, uint maxPlayers, uint height, uint width, uint
-                 startY=0, uint startX=0, bool border=false);
+          Server(uint port, uint maxPlayers);
            static Server* sServer;
            typedef struct pollfd pollfd;
            uint port;
@@ -45,8 +41,6 @@ namespace GameServer {
 
         class ServerProperties {
          public:
-            /* Convert std::string to a c string*/
-             /* static char* strTocstr(std::string str); */
               class Tick {
                 private:
                    std::chrono::system_clock::time_point mStartTime;
@@ -55,10 +49,10 @@ namespace GameServer {
                    ~Tick();
                 public:
                     Tick();
-                    void Reset();
-                    void Release();
-                    void TimeScale(float time = 1.0f);
-                    void NextTick();
+                    void  Reset();
+                    void  Release();
+                    void  TimeScale(float time = 1.0f);
+                    void  NextTick();
                     float DeltaTime();
                     float TimeScale();
               };
@@ -76,7 +70,7 @@ namespace GameServer {
           public:
                void ClientHandling();
                Player* player;
-      private:
+          private:
 
                 enum AskFromClient : byte {
                      AskName            = 0x6E,

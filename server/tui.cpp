@@ -21,7 +21,7 @@ using namespace GameServer;
     };
 
      struct Tui::Size& Tui::StartTui() {
-        Server::Tui::Size* size = new Server::Tui::Size;
+        Tui::Size* size = new Tui::Size;
         initscr();
         cbreak();
         getmaxyx(stdscr, size->height, size->width);
@@ -52,9 +52,9 @@ using namespace GameServer;
                     } while(enter != true);
                        if (str == "q") {
                                 endwin();
-                                exit(-1);
+                              server->ShutdownServer();
                             }
-                        server->SendToTui(str);
+                        server->tui->SendToTui(str);
                     wclear(win);
             } while(true);
     }
