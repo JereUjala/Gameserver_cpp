@@ -25,7 +25,7 @@ using namespace GameServer;
             std::cerr << "No port provided, please give a port as an argument\n"
                       << "Using default port: '1512'\n";
         } else {
-                *port = htons(atoi(argv[1]));
+            *port = htons(atoi(argv[1]));
         }
 
         Server* server{Server::MakeServer(*port, *maxPlayers)};

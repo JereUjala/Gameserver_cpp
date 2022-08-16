@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <ostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sstream>
@@ -29,7 +30,7 @@ void Clients::ClientHandler::ClientHandling() {
     ServerProperties::Tick* tick{new ServerProperties::Tick};
 
   while(true) {
-                tick->NextTick();
+           tick->NextTick();
           poll(listeningSocket, nfds, -1);
            while(tick->DeltaTime() >= 1/SERVER_TICKRATE) {
                         tick->Reset();
@@ -37,15 +38,17 @@ void Clients::ClientHandler::ClientHandling() {
                   if(listeningSocket[i].revents == 0)
                         continue;
 
-                         /* if a new fd is our listening connection accept */
                   if(listeningSocket[i].fd == listeningSocket[0].fd) {
-                        /* SendToTui("client socket is readable"); */
                           newConn = accept(listeningSocket[0].fd, nullptr,
                                                                   nullptr);
                        if (newConn == -1) {
-                          if (errno != EWOULDBLOCK)
-                            tui->SendToTui("Accepting failed");
-                        break;
+                          if (errno != EWOULDBLOCK) {
+                                std::ostringstream ss;
+                                ss << "Accepting failed " << newConn;
+
+                            tui->SendToTui(ss.str());
+                          }
+                         break;
                        }
                         std::ostringstream ss;
                             ss << "New incoming connection: " << newConn;
@@ -53,12 +56,16 @@ void Clients::ClientHandler::ClientHandling() {
                             listeningSocket[nfds].fd = newConn;
                             listeningSocket[nfds].events = POLLIN;
                         Clients::ClientHandler::LoginHandler(
-                               listeningSocket[nfds].fd, nfds-1);
+                               listeningSocket[nfds].fd, nfds);
 
-                      nfds++;
-                    }
-                    Siphon(&listeningSocket[i].fd);
-                }
+                    } else {
+                        /* std::ostringstream ss; */
+                        /*         ss << "going to Siphon() nfds: " << nfds << " newconn " */
+                        /*            << newConn << "from "  << listeningSocket[i].fd ; */
+                        /*         tui->SendToTui(ss.str()); */
+                            Siphon(&listeningSocket[i].fd);
+                      }
+                   }
                     tick->NextTick();
                 }
             }
@@ -67,17 +74,15 @@ void Clients::ClientHandler::ClientHandling() {
     void Clients::ClientHandler::Siphon(const int* fds) {
             byte buf[4096]{""};
         enum State : byte {
-        // hex for easy value changing
-        Forwards   =0x70,  //
-        Backwards  =0xE0,  //
-        Left       =0xC0,  //
-        Right      =0x80,  //
-        Shoot      =0x01,  //
+        Forwards   =0x70,
+        Backwards  =0xE0,
+        Left       =0xC0,
+        Right      =0x80,
+        Shoot      =0x01,
         msg        =0x71,
                 //for debug
-        Charachter =0x61,  //a
+        Charachter =0x61,
         };
-
         ReceivedFromClient(fds, buf);
         byte compare = buf[0];
 
@@ -124,15 +129,10 @@ void Clients::ClientHandler::ClientHandling() {
     }
 
         void Clients::ClientHandler::SendToAllClients(const byte* const msg) {
-             // send message to everybody that is not a listening socket
-                for(uint i = nfds; i > 0; --i) {
-                    /* if(listeningSocket[i].fd != *fds) continue; */
-                    if(listeningSocket[i].fd == listeningSocket[0].fd)
-                        continue;
-
+                for(uint i = nfds-1; i >= 1; --i) {
+                    /* if(listeningSocket[i].fd != listeningSocket[0].fd) */
                            SendToClient(&listeningSocket[i].fd, msg);
                 }
-
         }
 
        bool Clients::ClientHandler::ReceivedFromClient(const int* const fds,
@@ -142,8 +142,13 @@ void Clients::ClientHandler::ClientHandling() {
 
             if(bytesGot == -1) {
                 std::ostringstream ss;
-                ss << "There was a problem talking to client " << *fds;
+                ss << "There was a problem talking to client: " << *fds;
                         tui->SendToTui(ss.str());
+                /* close(*fds); */
+                for(int i = 0; i >= nfds; i++)
+                   if(listeningSocket[i].fd == *fds)
+                        listeningSocket[i].fd = -1;
+                        nfds--;
                 return false;
             }
 
@@ -151,8 +156,9 @@ void Clients::ClientHandler::ClientHandling() {
                 std::ostringstream ss;
                 ss << "Client: " << *fds << " disconnected.";
                 tui->SendToTui(ss.str());
-                /* close(*fds); */
-                return true;
+                        RemovePlayer(*fds);
+
+              return true;
             }
            return true;
         }
@@ -164,17 +170,18 @@ void Clients::ClientHandler::ClientHandling() {
                    << msg;
 
                 tui->SendToTui(ss.str());
-                   // send to client and see if it worked *sizeof(byte)
+                   // send to client and see if it worked
                 if(send(*clientSocket, msg, sizeof(msg), 0) == -1) {
                    std::ostringstream ss;
                     ss << "Sending data to " <<
                           *clientSocket << " failed.";
                     tui->SendToTui(ss.str());
+                        RemovePlayer(*clientSocket);
                 }
         }
 
 void Clients::ClientHandler::SendToClient(const int* const clientSocket,
-                                                 const enum AskFromClient clientDo){
+                                          enum AskFromClient clientDo) {
                std::ostringstream ss;
                 ss << "Sending to: " << *clientSocket << " | "
                    << clientDo;
@@ -186,5 +193,25 @@ void Clients::ClientHandler::SendToClient(const int* const clientSocket,
                     ss << "Sending data to " <<
                           *clientSocket << " failed.";
                     tui->SendToTui(ss.str());
-        }
-        }
+                        RemovePlayer(*clientSocket);
+                }
+}
+
+void Clients::ClientHandler::RemovePlayer(int rmFds) {
+
+                if(listeningSocket[maxPlayers-1].fd == -1) {
+                        close(maxPlayers-1);
+                        listeningSocket[maxPlayers-1].fd = 0;
+                } else {
+                        for(int i = 1; i <= maxPlayers;i++) {
+                           if(listeningSocket[i].fd == rmFds) {
+                              close(rmFds);
+                             for(int j=i; j < maxPlayers-1; j++) {
+                               listeningSocket[j].fd = listeningSocket[j+1].fd;
+                               listeningSocket[j+1].fd = 0;
+                             }
+                           }
+                        }
+                  }
+           nfds--;
+}

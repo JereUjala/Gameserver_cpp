@@ -70,7 +70,7 @@ return sServer;
   void Server::StartServer() {
         constexpr uint on{1};
 
-          int listener{socket(AF_INET, SOCK_STREAM, 0)};
+          listener = socket(AF_INET, SOCK_STREAM, 0);
 
         if(ioctl(listener, FIONBIO, (char)*&on) < 0)
             tui->SendToTui("listener\n");
@@ -107,13 +107,10 @@ return sServer;
                 Socket[0].events  = POLLIN;
                 listeningSocket   = Socket;
 
-
                 std::cout << "Bound to a socket" << std::endl;
  }
 
 void Server::ShutdownServer() {
-
-        /* std::for_each(listeningSocket.begin()) */
 
         shutdown(listeningSocket[0].fd, SHUT_RDWR);
         exit(0);

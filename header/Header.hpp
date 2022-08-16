@@ -15,7 +15,7 @@ namespace GameServer {
            uint height;
            uint width;
           };
-           WINDOW* win;
+          WINDOW* win;
           const WINDOW* GetWindow();
           void SetWin(WINDOW* win);
           void Input(class Server* server);
@@ -58,6 +58,7 @@ namespace GameServer {
               };
         };
       protected:
+          int listener;
           uint maxPlayers;
           pollfd* listeningSocket;
           uint nfds{1};
@@ -81,7 +82,7 @@ namespace GameServer {
                      SendAnewPlayer     = 0x4C,
                      SendId             = 0x96,
                 };
-
+         void RemovePlayer(int rmFds);
          void Siphon(const int*const fds);
          void MovePlayer(const int* const fds, const int* const moveAmount);
          void LoginHandler(const int fds, const int playerNum);
